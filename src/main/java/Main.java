@@ -12,6 +12,7 @@ public class Main {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException, IOException {
+        System.out.println("Hola mundo");
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet request = new HttpGet("https://swapi.dev/api/people");
@@ -24,10 +25,10 @@ public class Main {
 
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
-                    var result = EntityUtils.toString(entity);
+                    String result = EntityUtils.toString(entity);
                     ApiResponse<Character> parsedResponse = mapper.readValue(
                             result, mapper.getTypeFactory().constructParametricType(ApiResponse.class, Character.class));
-                    System.out.println(result);
+                    createData(parsedResponse);
                 }
             } finally {
                 response.close();
@@ -35,5 +36,28 @@ public class Main {
         } finally {
             httpClient.close();
         }
+    }
+
+    public static void createData(ApiResponse<Character> response){
+        int size = response.getResults().size();
+        Object[][] data = new Object[size][3];
+        int k = 0;
+        for (Character i: response.getResults()){
+            data[k][0] = i.getName();
+            data[k][1] = i.getHeight();
+            data[k][2] = i.getBirth_year();
+            k++;
+        }
+        Object[][] data2 = {{"Daniel", "Villar","Esquiar"},
+                {"Carlos", "Villar","Patinar"},
+                {"Karinna", "Villar","Escalar"},
+                {"Mario", "Diaz","Correr"},
+                {"Sylvia", "Uribe","Modelar"}};
+        Table tabla = new Table();
+        tabla.setData(data);
+        tabla.crearTable();
+        tabla.pack();
+        tabla.setVisible(true);
+
     }
 }
