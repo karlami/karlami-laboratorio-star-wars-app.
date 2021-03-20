@@ -60,4 +60,7 @@ public class Main {
         tabla.setVisible(true);
 
     }
+    public static boolean pruebaMain(){
+        return true;
+    }
 }
