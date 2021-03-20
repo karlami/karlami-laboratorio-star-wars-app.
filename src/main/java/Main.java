@@ -12,7 +12,6 @@ public class Main {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException, IOException {
-        System.out.println("Hola mundo");
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet request = new HttpGet("https://swapi.dev/api/people");
